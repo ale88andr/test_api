@@ -3,17 +3,12 @@ import environ
 
 
 root = environ.Path(__file__) - 2
-
 env = environ.Env()
-
 environ.Env.read_env(env.str(root(), '.env'))
 
 BASE_DIR = root()
-
 SECRET_KEY = env.str('SECRET_KEY')
-
 DEBUG = env.bool('DEBUG', default=False)
-
 ALLOWED_HOSTS = env.str('ALLOWED_HOSTS', default='').split(' ')
 
 
@@ -100,11 +95,8 @@ AUTH_PASSWORD_VALIDATORS = [
 
 
 LANGUAGE_CODE = 'en-us'
-
 TIME_ZONE = 'UTC'
-
 USE_I18N = True
-
 USE_TZ = True
 
 ##############
