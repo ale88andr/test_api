@@ -1,3 +1,7 @@
+from api.spectacular.urls import urlpatterns as doc_urlpatterns
+
+
 app_name = 'api'
 
-url_patterns = []
+urlpatterns = []
+urlpatterns += doc_urlpatterns
