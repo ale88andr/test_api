@@ -134,3 +134,7 @@ dmypy.json
 # Django static
 static/
 media/
+
+# Django migrations
+migrations/*
+!migrations/__init__.py

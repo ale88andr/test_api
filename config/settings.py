@@ -31,6 +31,13 @@ INSTALLED_APPS += [
     'corsheaders',
 ]
 
+# dev apps
+
+INSTALLED_APPS += [
+    'api',
+    'common',
+]
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
