@@ -39,6 +39,7 @@ INSTALLED_APPS += [
 INSTALLED_APPS += [
     'api',
     'common',
+    'breaks',
 ]
 
 # Spectacular - указывается после добавления всех приложений
