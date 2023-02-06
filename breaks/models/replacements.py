@@ -5,21 +5,6 @@ from django.db import models
 User = get_user_model()
 
 
-class ReplacementStatus(models.Model):
-    code = models.CharField('Код', max_length=16, primary_key=True)
-    name = models.CharField('Наименование', max_length=50)
-    sort = models.PositiveSmallIntegerField('Сортировка', null=True, blank=True)
-    is_active = models.BooleanField('Активность', default=True)
-
-    class Meta:
-        verbose_name = 'Стату смены'
-        verbose_name_plural = 'Статусы смены'
-        ordering = 'sort',
-
-    def __str__(self):
-        return f'{self.code} {self.name}'
-
-
 class Replacement(models.Model):
     group = models.ForeignKey('breaks.Group', models.CASCADE, 'replacements', verbose_name='Группа')
     date = models.DateField('Дата смены')
