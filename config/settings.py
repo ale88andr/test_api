@@ -32,6 +32,7 @@ INSTALLED_APPS += [
     'django_filters',
     'corsheaders',
     'djoser',
+    'phonenumber_field',
 ]
 
 # dev apps
@@ -39,6 +40,7 @@ INSTALLED_APPS += [
 INSTALLED_APPS += [
     'api',
     'common',
+    'users',
     'breaks',
 ]
 
@@ -47,6 +49,11 @@ INSTALLED_APPS += [
 INSTALLED_APPS += [
     'drf_spectacular',
 ]
+
+
+# Переопределение класса пользователей
+AUTH_USER_MODEL = 'users.User'
+AUTHENTICATION_BACKENDS = 'users.models.backends.AuthBackend',
 
 
 MIDDLEWARE = [
