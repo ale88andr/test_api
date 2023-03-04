@@ -1,7 +1,10 @@
 from django.contrib.auth import get_user_model
 from django.contrib.auth.password_validation import validate_password
+from django.db import transaction
 from rest_framework import serializers
 from rest_framework.exceptions import ParseError
+
+from users.serializers.nested.profile import ProfileSerializer, ProfileUpdateSerializer
 
 User = get_user_model()
 
@@ -53,3 +56,62 @@ class ChangePasswordSerializer(serializers.ModelSerializer):
         instance.set_password(new_password)
         instance.save()
         return instance
+
+
+class MeSerializer(serializers.ModelSerializer):
+    profile = ProfileSerializer()
+
+    class Meta:
+        model = User
+        fields = (
+            'id',
+            'is_superuser',
+            'first_name',
+            'last_name',
+            'date_joined',
+            'username',
+            'phone_number',
+            'email',
+            'profile',
+        )
+
+
+class MeUpdateSerializer(serializers.ModelSerializer):
+    profile = ProfileUpdateSerializer()
+
+    class Meta:
+        model = User
+        fields = (
+            'id',
+            'first_name',
+            'last_name',
+            'username',
+            'phone_number',
+            'email',
+            'profile',
+        )
+
+    def update(self, instance, validated_data):
+        # проверка, существуют ли данные профиля в запросе
+        profile_data = validated_data.pop('profile') if 'profile' in validated_data else None
+
+        # начало транзакции
+        with transaction.atomic():
+            # обновление данных пользователя
+            instance = super().update(instance, validated_data)
+            # обновление данных профиля
+            if profile_data:
+                self._update_profile(instance.profile, profile_data)
+
+        return instance
+
+    def _update_profile(self, profile, data):
+        # for key, value in data.items():
+        #     if hasattr(profile, key):
+        #         setattr(profile, key, value)
+        # profile.save()
+        profile_serializer = ProfileUpdateSerializer(
+            instance=profile, data=data, partial=True
+        )
+        profile_serializer.is_valid(raise_exception=True)
+        profile_serializer.save()
