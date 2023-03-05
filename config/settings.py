@@ -42,6 +42,7 @@ INSTALLED_APPS += [
     'common',
     'users',
     'breaks',
+    'organisations',
 ]
 
 # Spectacular - указывается после добавления всех приложений
